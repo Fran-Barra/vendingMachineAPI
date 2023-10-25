@@ -1,4 +1,4 @@
-import machineModel, {IMachine} from "models/machineModel"
+import machineModel, {IMachine} from "../models/machineModel"
 
 
 export class MachineRepository{

@@ -1,5 +1,5 @@
-import { MachineDTO } from "dto/machineDTO";
-import { IMachine, MachineStatus } from "models/machineModel";
+import { MachineDTO } from "../dto/machineDTO";
+import { IMachine } from "../models/machineModel";
 
 
 export class MachineFactory{

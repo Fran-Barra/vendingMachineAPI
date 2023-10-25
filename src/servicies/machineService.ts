@@ -1,5 +1,5 @@
-import { MachineFactory } from 'factory.ts/machineFactory';
-import { MachineRepository } from 'repository/machineRepository';
+import { MachineFactory } from '../factory.ts/machineFactory';
+import { MachineRepository } from '../repository/machineRepository';
 
 
 export class MachineService {

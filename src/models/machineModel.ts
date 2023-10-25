@@ -14,7 +14,7 @@ export enum MachineStatus{
 
 //TODO: make status requiered
 const machineSchema = new Schema<IMachine>({
-    status: MachineStatus,
+    status: {type: Number, required: true},
     credit: {type: Number, required: true}
 })
 

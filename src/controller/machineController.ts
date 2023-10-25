@@ -1,6 +1,6 @@
 import Controller from "./controller";import { HttpStatus } from "../httpStatus";
-import HttpException from "exceptions/httpExceptions";
-import { MachineService } from 'servicies/machineService'
+import HttpException from "../exceptions/httpExceptions";
+import { MachineService } from '../servicies/machineService'
 import { NextFunction, Request, Response, Router } from "express";
 
 export class MachineController implements Controller {

@@ -1,7 +1,7 @@
 import 'dotenv/config';
-import validateEnv from 'servicies/validateEnv';
+import validateEnv from './servicies/validateEnv';
 import {App} from './app';
-import { MachineController } from 'controller/machineController';
+import { MachineController } from './controller/machineController';
 
 
 validateEnv();
