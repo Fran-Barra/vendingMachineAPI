@@ -1,6 +1,6 @@
 import HttpException from "exceptions/httpExceptions";
 import { NextFunction, Request, Response } from "express";
-import { HttpStatus } from "../../httpStatus";
+import { HttpStatus } from "../httpStatus";
 
 
 
