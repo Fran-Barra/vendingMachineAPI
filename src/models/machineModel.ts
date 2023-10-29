@@ -1,9 +1,11 @@
-import { Schema, model } from "mongoose"
+import { Schema, Types, model } from "mongoose"
+import { IMachineProduct } from "./machineProductModel";
 
 //TODO: make the paramaeter requiered
 export interface IMachine {
     readonly status: MachineStatus,
     readonly credit: number
+    products: Array<IMachineProduct>;
 }
 
 export enum MachineStatus{
@@ -12,7 +14,6 @@ export enum MachineStatus{
     ON_MAINTENANACE
 }
 
-//TODO: make status requiered
 const machineSchema = new Schema<IMachine>({
     status: {type: Number, required: true},
     credit: {type: Number, required: true}
