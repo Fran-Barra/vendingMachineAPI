@@ -1,4 +1,6 @@
+import HttpException from "exceptions/httpExceptions";
 import machineModel, {IMachine, MachineStatus} from "../models/machineModel"
+import { HttpStatus } from "httpStatus";
 
 
 export class MachineRepository{
@@ -15,9 +17,12 @@ export class MachineRepository{
         }
     }
 
-    public static async getMachineById(machineId: number){
+    public static async getMachineById(machineId: number): Promise<IMachine> {
         try {
-            return await machineModel.findById(machineId);
+            const findMachieneResult = await machineModel.findById(machineId);
+            if (findMachieneResult === null)
+                throw new HttpException(HttpStatus.NotFound, "The machine with the given Id was not found");
+            return findMachieneResult;
         } catch (err) {
             //TODO: manage error
             throw err;
