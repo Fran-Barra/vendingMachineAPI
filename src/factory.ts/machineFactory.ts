@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 import { MachineDTO } from "../dto/machineDTO";
 import { IMachine } from "../models/machineModel";
 import { IMachineProduct } from "models/machineProductModel";
