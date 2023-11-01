@@ -31,7 +31,13 @@ export class MachineService {
      * @param machineId the id of the machine.
      * @param creditUpdate the amount of increase or decrease of credit. 
      */
-    public static increaseOrDecreaseCreditOfMachine(machineId: number, creditUpdate: number): void {
-        throw new Error("Not implemented error");
+    public static async increaseOrDecreaseCreditOfMachine(machineId: number, creditUpdate: number): Promise<void> {
+        //TODO: ADD HISTORY FUNCIONaLITY.
+        try {
+            await MachineRepository.increaseOrDecreaseCreditOfMachine(machineId, creditUpdate);
+        } catch (err) {
+            //TODO: manage errors
+            throw err;
+        }
     }
 }
