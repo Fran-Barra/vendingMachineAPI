@@ -42,7 +42,7 @@ export class MachineController implements Controller {
      */
     private async get(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         try {
-            res.status(HttpStatus.OK).json(MachineRepository.getAllMachines());
+            res.status(HttpStatus.OK).json(await MachineRepository.getAllMachines());
         } catch (err) {
             //TODO: manage known errors.
             next(err);
@@ -58,7 +58,7 @@ export class MachineController implements Controller {
     private async getWithId(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         try {
             const machineId: number = this.getIdParam(req);
-            res.status(HttpStatus.OK).json(MachineRepository.getMachineById(machineId))
+            res.status(HttpStatus.OK).json(await MachineRepository.getMachineById(machineId))
         } catch (err) {
             //TODO: manage known errors.
             next(err);
