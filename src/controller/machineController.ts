@@ -60,9 +60,8 @@ export class MachineController implements Controller {
             const machineId: number = this.getIdParam(req);
             res.status(HttpStatus.OK).json(MachineRepository.getMachineById(machineId))
         } catch (err) {
-            if (err instanceof HttpException) next(err);
-            else next(err); //TODO: manage known errors.
-            
+            //TODO: manage known errors.
+            next(err);
         }
     }
 
