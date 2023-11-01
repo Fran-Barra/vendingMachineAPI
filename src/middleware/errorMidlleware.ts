@@ -4,11 +4,18 @@ import { HttpStatus } from "../httpStatus";
 
 
 
-function errorMidlleware(error: HttpException, req: Request, res: Response, next: NextFunction): void {
-    const status = error.status || HttpStatus.InternalServerError;
-    const message = error.message || 'something went wrong';
+function errorMidlleware(error: Error, req: Request, res: Response, next: NextFunction): void {
+    const InternalServerErrorMessage: String = `something went wrong`;
+    if (error instanceof HttpException) {
+        const status = error.status || HttpStatus.InternalServerError;
+        const message = error.message || InternalServerErrorMessage;
 
-    res.status(status).send({'status':status, 'message':message})
+        res.status(status).send({'status':status, 'message':message})
+    } else {
+        res.status(HttpStatus.InternalServerError).
+            send({"status": HttpStatus.InternalServerError, "message":InternalServerErrorMessage })
+    }
+
 }
 
 export default errorMidlleware;

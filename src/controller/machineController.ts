@@ -3,6 +3,7 @@ import HttpException from "../exceptions/httpExceptions";
 import { MachineService } from '../servicies/machineService'
 import { NextFunction, Request, Response, Router } from "express";
 import { MachineRepository } from "repository/machineRepository";
+import { MachineProductRepository } from "repository/machineProductRepository";
 
 export class MachineController implements Controller {
     path: String = "/machine";
@@ -43,8 +44,8 @@ export class MachineController implements Controller {
         try {
             res.status(HttpStatus.OK).json(MachineRepository.getAllMachines());
         } catch (err) {
-            //TODO: manage errors correctly.
-            next(new HttpException(HttpStatus.InternalServerError, "Something whent wrong"));
+            //TODO: manage known errors.
+            next(err);
         }
     }
 
@@ -56,13 +57,11 @@ export class MachineController implements Controller {
      */
     private async getWithId(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         try {
-            const machineId: number = Number(req.params.id);
-            if (isNaN(machineId)) 
-                throw new HttpException(HttpStatus.BadRequest, "Id of the machine must be a valid number");
+            const machineId: number = this.getIdParam(req);
             res.status(HttpStatus.OK).json(MachineRepository.getMachineById(machineId))
         } catch (err) {
             if (err instanceof HttpException) next(err);
-            else throw err; //TODO: manage this error.
+            else next(err); //TODO: manage known errors.
             
         }
     }
@@ -74,7 +73,13 @@ export class MachineController implements Controller {
      * @param next 
      */
     private async getMachineProducts(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-        throw new Error("Not implemented erro")
+        try{
+            const machienId: number = this.getIdParam(req);
+            res.status(HttpStatus.OK).json({"products": MachineProductRepository.getMachineProducts(machienId)});
+        } catch (err) {
+            //TODO: manage known errors.
+            next(err);
+        }
     }
 
     /**
@@ -83,5 +88,17 @@ export class MachineController implements Controller {
      */
     private async getMachineStats(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         throw new Error("Not implemented erro")
+    }
+
+    /**
+     * Get id from request param
+     * @param req 
+     * @returns the id or an BadRequestError
+     */
+    private getIdParam(req: Request): number {
+        const machineIdOptional: number = Number(req.params.id);
+        if (isNaN(machineIdOptional)) 
+            throw new HttpException(HttpStatus.BadRequest, "Id of the machine must be a valid number");
+        return machineIdOptional;
     }
 }
