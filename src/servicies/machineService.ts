@@ -1,11 +1,11 @@
-import { IMachine, MachineStatus } from 'models/machineModel';
+import { IMachine } from 'models/machineModel';
 import { MachineFactory } from '../factory.ts/machineFactory';
 import { MachineRepository } from '../repository/machineRepository';
 
 
 export class MachineService {
 
-    public static createAndSave(machineDTO: any): any {
+    public static createAndSave(machineDTO: IMachine): IMachine {
         //TODO: subscrive to events of machine
         try {
             const machine = MachineFactory.createMachine(machineDTO);
@@ -15,15 +15,6 @@ export class MachineService {
             throw new Error("Unacble to create machine");
             //TODO: handle correctly this
         }
-    }
-
-    /**
-     * Updates the status of the machine.
-     * @param machineId the id of the machine.
-     * @param machineStatus the new status of the machine.
-     */
-    public static modifyMachineStatus(machineId: number, machineStatus: MachineStatus): void {
-        throw new Error("Not implemented error");
     }
 
     /**
