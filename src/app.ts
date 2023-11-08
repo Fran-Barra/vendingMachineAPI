@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
 import Controller from './controller/controller';
-import errorMiddleware from './middleware/errorMidlleware';
+import errorMidlleware from './middleware/errorMidlleware';
+import { MqttClient } from 'servicies/mqttService';
 
 
 export class App{
@@ -15,6 +16,7 @@ export class App{
         this.port = port
 
         this.initialiseDatabaseConnection();
+        this.initialiseMosquitoConnection();
         this.initializeMiddleware();
         this.initialiseControllers(controllers);
         this.initialiseErrorHandling();
@@ -28,7 +30,11 @@ export class App{
 
     private initialiseDatabaseConnection(): void{
         const { MONGO_USER, MONGO_PASSWORD, MONGO_PATH} = process.env;
-        mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_PATH}`);
+        mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_PATH}?authMechanism=DEFAULT`);
+    }
+
+    initialiseMosquitoConnection() {
+        //new MqttClient();
     }
 
     private initializeMiddleware(): void {
@@ -44,6 +50,6 @@ export class App{
     }
 
     private initialiseErrorHandling(): void {
-        this.app.use(errorMiddleware);
+        this.app.use(errorMidlleware);
     }
 }
