@@ -1,11 +1,14 @@
-import HttpException from "exceptions/httpExceptions";
+import HttpException from "../exceptions/httpExceptions";
 import machineModel, {IMachine, MachineStatus} from "../models/machineModel"
-import { HttpStatus } from "httpStatus";
+import { HttpStatus } from "../httpStatus";
 
 
 export class MachineRepository{
-    public static save(machine: IMachine): void{
-        new machineModel(machine).save()
+    public static async save(machine: IMachine): Promise<void> {
+        console.log("save result:");
+        const result = await new machineModel(machine).save()
+        console.log(result);
+        
     }
 
     public static async getAllMachines(): Promise<Array<IMachine>> {

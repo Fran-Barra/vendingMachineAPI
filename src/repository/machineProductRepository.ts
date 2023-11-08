@@ -1,6 +1,6 @@
-import HttpException from "exceptions/httpExceptions";
-import { HttpStatus } from "httpStatus";
-import machineProductModel, { IMachineProduct } from "models/machineProductModel";
+import HttpException from "../exceptions/httpExceptions";
+import { HttpStatus } from "../httpStatus";
+import machineProductModel, { IMachineProduct } from "../models/machineProductModel";
 
 
 

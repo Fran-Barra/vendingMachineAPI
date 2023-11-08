@@ -1,9 +1,10 @@
 import Controller from "./controller";import { HttpStatus } from "../httpStatus";
 import HttpException from "../exceptions/httpExceptions";
 import { MachineService } from '../servicies/machineService'
-import { NextFunction, Request, Response, Router } from "express";
-import { MachineRepository } from "repository/machineRepository";
-import { MachineProductRepository } from "repository/machineProductRepository";
+import e, { NextFunction, Request, Response, Router } from "express";
+import { MachineRepository } from "../repository/machineRepository";
+import { MachineProductRepository } from "../repository/machineProductRepository";
+import { MachineDTO } from "dto/machineDTO";
 
 export class MachineController implements Controller {
     path: String = "/machine";
@@ -26,11 +27,12 @@ export class MachineController implements Controller {
 
     private async crete(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         try {
-            const machineDTO = req.body;
+            const machineDTO: MachineDTO = req.body;            
             const machine = await MachineService.createAndSave(machineDTO);
             res.status(HttpStatus.OK).json(machine);
         } catch (err){
-            next(new HttpException(HttpStatus.BadRequest, 'Canot create machine'));
+            if (err instanceof HttpException) next(err)
+            else next(new HttpException(HttpStatus.BadRequest, 'Canot create machine'));
         }
     }
 

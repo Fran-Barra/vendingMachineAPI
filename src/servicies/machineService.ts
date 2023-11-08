@@ -1,19 +1,22 @@
 import { IMachine } from 'models/machineModel';
 import { MachineFactory } from '../factory.ts/machineFactory';
 import { MachineRepository } from '../repository/machineRepository';
+import HttpException from '../exceptions/httpExceptions';
+import { MachineDTO } from 'dto/machineDTO';
 
 
 export class MachineService {
 
-    public static createAndSave(machineDTO: IMachine): IMachine {
+    public static async createAndSave(machineDTO: MachineDTO): Promise<IMachine> {
         //TODO: subscrive to events of machine
         try {
-            const machine = MachineFactory.createMachine(machineDTO);
-            MachineRepository.save(machine);
+            const machine = MachineFactory.createMachine(machineDTO);            
+            await MachineRepository.save(machine);
             return machine;
         }catch (err) {
-            throw new Error("Unacble to create machine");
-            //TODO: handle correctly this
+            console.log(err)
+            if (err instanceof HttpException) throw err;
+            else throw new Error("Unacble to create machine");
         }
     }
 
