@@ -10,7 +10,8 @@ export class MqttClient{
     private readonly messageReciber: BufferAdapter = new BufferAdapter();
     private readonly topicMethod: Map<String, (messae: Buffer) => void> =
         new Map<String, (messae: Buffer) => void>([
-            [`${this.PATH}/status`, this.messageReciber.transformMessage]
+            [`${this.PATH}/status`, this.messageReciber.updateStatus],
+            [`${this.PATH}/stock/#`, this.messageReciber.updateStock]
         ]);
 
     constructor(){
@@ -26,7 +27,6 @@ export class MqttClient{
 
     private subscribeToTopict(){
         this.client.subscribe(`${this.PATH}/status`);
-        //TODO: /stock me manda el id de la maquina y la cantidad que se desea tener de TODOS LOS PRODUCTOS
         this.client.subscribe(`${this.PATH}/stock/#`);
         //TODO: /credit me manda el incremento.
         this.client.subscribe(`${this.PATH}/credit/#`);

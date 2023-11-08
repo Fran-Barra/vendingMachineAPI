@@ -25,7 +25,7 @@ export class MachineService {
      * @param machineId the id of the machine.
      * @param creditUpdate the amount of increase or decrease of credit. 
      */
-    public static async increaseOrDecreaseCreditOfMachine(machineId: number, creditUpdate: number): Promise<void> {
+    public static async increaseOrDecreaseCreditOfMachine(machineId: String, creditUpdate: number): Promise<void> {
         //TODO: ADD HISTORY FUNCIONaLITY.
         try {
             await MachineRepository.increaseOrDecreaseCreditOfMachine(machineId, creditUpdate);

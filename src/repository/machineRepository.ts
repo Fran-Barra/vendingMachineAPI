@@ -1,6 +1,7 @@
 import HttpException from "../exceptions/httpExceptions";
 import machineModel, {IMachine, MachineStatus} from "../models/machineModel"
 import { HttpStatus } from "../httpStatus";
+import machineProductModel from "../models/machineProductModel";
 
 
 export class MachineRepository{
@@ -32,11 +33,16 @@ export class MachineRepository{
         }
     }
 
-    public static modifyMachineStock(machineId: number, productId: number, productAmount: number): void {
-        throw new Error("Not implemented error");
+    public static modifyMachineStock(machineId: String, productAmount: number): void {
+        try {
+            machineProductModel.findByIdAndUpdate({machine: machineId}, {stock: productAmount})
+        } catch (err) {
+            //TODO: manage error
+            throw err;
+        }
     }
 
-    public static async modifyMachineStatus(machineId: number, machineStatus: MachineStatus): Promise<void> {
+    public static async modifyMachineStatus(machineId: String, machineStatus: MachineStatus): Promise<void> {
         try {
             await machineModel.findOneAndUpdate({_id: machineId}, {status: machineStatus})
         }catch (err){
@@ -45,7 +51,7 @@ export class MachineRepository{
         }
     }
 
-    public static async increaseOrDecreaseCreditOfMachine(machineId: number, creditUpdate: number): Promise<void> {
+    public static async increaseOrDecreaseCreditOfMachine(machineId: String, creditUpdate: number): Promise<void> {
         try {
             await machineModel.findOneAndUpdate({_id: machineId}, {$inc: {credit: creditUpdate}});
         }catch (err){
