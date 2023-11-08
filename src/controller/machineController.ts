@@ -59,7 +59,10 @@ export class MachineController implements Controller {
      */
     private async getWithId(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         try {
-            const machineId: number = this.getIdParam(req);
+            //TODO: sicoment this to get the id: const machineId: number = this.getIdParam(req);  
+            if (req.params.id == null) throw new HttpException(HttpStatus.BadRequest, 'missing id')          
+            const machineId: String = req.params.id 
+                       
             res.status(HttpStatus.OK).json(await MachineRepository.getMachineById(machineId))
         } catch (err) {
             //TODO: manage known errors.
@@ -75,7 +78,7 @@ export class MachineController implements Controller {
      */
     private async getMachineProducts(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         try{
-            const machienId: number = this.getIdParam(req);
+            const machienId: number = this.getIdParam(req);            
             res.status(HttpStatus.OK).json({"products": MachineProductRepository.getMachineProducts(machienId)});
         } catch (err) {
             //TODO: manage known errors.
@@ -97,7 +100,12 @@ export class MachineController implements Controller {
      * @returns the id or an BadRequestError
      */
     private getIdParam(req: Request): number {
+        console.log("Getting id");
+        console.log(`1param: ${req.params.id}`);
+        
         const machineIdOptional: number = Number(req.params.id);
+        console.log(`got id: ${machineIdOptional}`);
+        
         if (isNaN(machineIdOptional)) 
             throw new HttpException(HttpStatus.BadRequest, "Id of the machine must be a valid number");
         return machineIdOptional;

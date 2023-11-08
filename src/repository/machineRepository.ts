@@ -20,7 +20,7 @@ export class MachineRepository{
         }
     }
 
-    public static async getMachineById(machineId: number): Promise<IMachine> {
+    public static async getMachineById(machineId: String): Promise<IMachine> {
         try {
             const findMachieneResult = await machineModel.findById(machineId);
             if (findMachieneResult === null)
