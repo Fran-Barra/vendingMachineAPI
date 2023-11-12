@@ -2,6 +2,7 @@ import HttpException from "../exceptions/httpExceptions";
 import machineModel, {IMachine, MachineStatus} from "../models/machineModel"
 import { HttpStatus } from "../httpStatus";
 import machineProductModel from "../models/machineProductModel";
+import { Types } from "mongoose";
 
 
 export class MachineRepository{
@@ -33,9 +34,11 @@ export class MachineRepository{
         }
     }
 
-    public static modifyMachineStock(machineId: String, productAmount: number): void {
+    public static async modifyMachineStock(machineId: String, productAmount: number): Promise<void> {
         try {
-            machineProductModel.findByIdAndUpdate({machine: machineId}, {stock: productAmount})
+            console.log(`machineId: ${machineId}`);
+            
+            await machineProductModel.updateMany({machine: machineId}, {$set: {stock: productAmount}}).exec()
         } catch (err) {
             //TODO: manage error
             throw err;
