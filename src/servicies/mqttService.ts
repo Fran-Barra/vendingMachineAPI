@@ -35,19 +35,16 @@ export class MqttClient{
 
     private subscribe() {
         this.client.subscribe(`${this.PATH}/#`)
-        this.client.subscribe(`${this.PATH}/status`);
-        this.client.subscribe(`${this.PATH}/stock/#`);
-        //TODO: /credit me manda el incremento.
-        this.client.subscribe(`${this.PATH}/credit/#`);
-        this.client.subscribe(`${this.PATH}/price/#`);
     }
 
     private messageManager(topic: String, message: Buffer){
         console.log(`topic: ${topic} message: ${message}`);
         
         const topicCallBack: ((messae: Buffer) => void) | undefined = this.topicMethod.get(topic)
-        if (topicCallBack === undefined) 
-            throw new Error("Unexpected topic");
+        if (topicCallBack === undefined) {
+            console.log("This toppic is not mannaged")
+            return
+        }
         topicCallBack.call(this.messageReciber, message)
     }
 }
