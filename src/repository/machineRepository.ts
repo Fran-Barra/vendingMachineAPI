@@ -36,8 +36,6 @@ export class MachineRepository{
 
     public static async modifyMachineStock(machineId: String, productAmount: number): Promise<void> {
         try {
-            console.log(`machineId: ${machineId}`);
-            
             await machineProductModel.updateMany({machine: machineId}, {$set: {stock: productAmount}}).exec()
         } catch (err) {
             //TODO: manage error

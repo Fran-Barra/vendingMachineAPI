@@ -42,7 +42,7 @@ export class BufferAdapter{
         }
     }
 
-    public boughtProduct(message: Buffer) {
+    public async boughtProduct(message: Buffer) {
         try {
             const values: {productId: string, machineId: string}= JSON.parse(message.toString())
 
@@ -52,7 +52,7 @@ export class BufferAdapter{
             const productId: String  | undefined = values.productId;
             if (productId === undefined) throw Error('wrong message send by mqtt, pid missing');
 
-            MachineService.BoughtProductOfMachine(machineId, productId);
+            await MachineService.BoughtProductOfMachine(machineId, productId);
         } catch (err){
             console.log(err)
         }

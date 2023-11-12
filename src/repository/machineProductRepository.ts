@@ -43,8 +43,6 @@ export class MachineProductRepository{
      */
     public static async decreaseOrIncreseStock(machienId: String, productId: String, amount: number) {
         try {
-            if (amount < 0) 
-                throw new HttpException(HttpStatus.BadRequest, "The stcok can't be negtive");
             await machineProductModel.findOneAndUpdate({machine: machienId, product: productId}, {$inc: {stock: amount}});
         } catch (err) {
             //TODO: manage known errors.

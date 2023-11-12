@@ -20,7 +20,7 @@ export class MachineService {
             if (machine.credit < product.price) throw new HttpException(HttpStatus.BadRequest, "Not enought money");
 
             this.increaseOrDecreaseCreditOfMachine(idManchine, -product.price);
-            MachineProductRepository.decreaseOrIncreseStock(idProduct, idProduct, 1);
+            MachineProductRepository.decreaseOrIncreseStock(idManchine, idProduct, -1);
 
             MachineSells.saveSellOfMAchine(idManchine.toString(), idProduct.toString())
         }catch (err) {

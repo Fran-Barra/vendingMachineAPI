@@ -27,7 +27,7 @@ export class MachineSells{
                 time: new Date(),
             };
 
-            await machineModel.findOneAndUpdate(
+            await machineStatsModel.findOneAndUpdate(
                 { machine: machineId },
                 { $push: { sells: sellStat } },
                 { upsert: true, new: true } 
