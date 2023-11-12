@@ -28,7 +28,7 @@ export class BufferAdapter{
     }
 
     public updateStock(message: Buffer){
-        try {
+        try {            
             const values:{machineId: string, stock: string} = JSON.parse(message.toString())
 
             const newAmount: number = Number(values.stock);
@@ -81,7 +81,8 @@ export class BufferAdapter{
             const machienId = message.toString();
 
             const data: MachineInitData = await MachineFactory.getMachineInitData(machienId)
-            this.mqttClient.sendMessage(`/machine_init_${machienId}`, data)
+            this.mqttClient.sendStringMessage(`/machine_init_${machienId}`, 
+            `${data.credit},${data.esp_stock},${data.proto_stock},${data.led_stock},${data.pusher_stock}`)
         } catch (err){
             console.log(err)
         }

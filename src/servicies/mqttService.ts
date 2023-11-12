@@ -28,6 +28,10 @@ export class MqttClient{
         this.client.publish(this.PATH+theme, serializedData);
     }
 
+    public sendStringMessage(theme: string, payload: string) {
+        this.client.publish(this.PATH+theme, payload);
+    }
+
     private configureMqttClient() {
         this.subscribe();
         this.client.on('message', (topic, message)=>{this.messageManager(topic, message)});
