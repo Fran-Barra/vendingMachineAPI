@@ -16,7 +16,6 @@ export class App{
         this.port = port
 
         this.initialiseDatabaseConnection();
-        this.initialiseMosquitoConnection();
         this.initializeMiddleware();
         this.initialiseControllers(controllers);
         this.initialiseErrorHandling();
@@ -31,10 +30,6 @@ export class App{
     private initialiseDatabaseConnection(): void{
         const { MONGO_USER, MONGO_PASSWORD, MONGO_PATH} = process.env;
         mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_PATH}?authMechanism=DEFAULT`);
-    }
-
-    initialiseMosquitoConnection() {
-        //new MqttClient();
     }
 
     private initializeMiddleware(): void {

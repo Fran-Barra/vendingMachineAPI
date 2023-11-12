@@ -24,7 +24,7 @@ export class MachineProductRepository{
     * @param productId the id of the prouct of the machine.
     * @param productAmount the new amount of stock.
     */
-    public static async modifyMachineStock(machienId: number, productId: number, amount: number) {
+    public static async modifyMachineStock(machienId: string, productId: string, amount: number) {
         try {
             if (amount < 0) 
                 throw new HttpException(HttpStatus.BadRequest, "The stcok can't be negtive");
@@ -41,7 +41,7 @@ export class MachineProductRepository{
      * @param productId 
      * @param amount Negative values are alowed and will reduce the stock.
      */
-    public static async decreaseOrIncreseStock(machienId: number, productId: number, amount: number) {
+    public static async decreaseOrIncreseStock(machienId: String, productId: String, amount: number) {
         try {
             if (amount < 0) 
                 throw new HttpException(HttpStatus.BadRequest, "The stcok can't be negtive");

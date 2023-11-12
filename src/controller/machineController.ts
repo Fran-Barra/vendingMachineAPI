@@ -5,6 +5,7 @@ import e, { NextFunction, Request, Response, Router } from "express";
 import { MachineRepository } from "../repository/machineRepository";
 import { MachineProductRepository } from "../repository/machineProductRepository";
 import { MachineDTO } from "dto/machineDTO";
+import { MachineSells } from "../repository/machineSellsRepo";
 
 export class MachineController implements Controller {
     path: String = "/machine";
@@ -29,7 +30,7 @@ export class MachineController implements Controller {
         try {
             const machineDTO: MachineDTO = req.body;            
             const machine = await MachineService.createAndSave(machineDTO);
-            res.status(HttpStatus.OK).json(machine);
+            res.status(HttpStatus.Created).json(machine);
         } catch (err){
             if (err instanceof HttpException) next(err)
             else next(new HttpException(HttpStatus.BadRequest, 'Canot create machine'));
@@ -91,6 +92,16 @@ export class MachineController implements Controller {
      * (Could include wich products were bought more and how was the inventory in a certain range) 
      */
     private async getMachineStats(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-        throw new Error("Not implemented erro")
+        try{
+            if (req.params.id == null) throw new HttpException(HttpStatus.BadRequest, 'missing id');         
+            const machineId: String = req.params.id;
+
+            const sells = await MachineSells.getMachineSellsById(machineId.toString());
+            const earnings = await MachineSells.getMachineEarnings(machineId.toString());
+
+            res.status(HttpStatus.OK).json({"totalEarnings":earnings, "sells":sells})
+        } catch (err) {
+            next(err)
+        }
     }
 }

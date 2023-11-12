@@ -1,4 +1,4 @@
-import mqtt from 'mqtt';
+import * as mqtt from 'mqtt';
 import { BufferAdapter } from './BufferAdapter';
 
 
@@ -7,25 +7,34 @@ export class MqttClient{
     private readonly client;
     private readonly PATH: String = "VendingMachine"
 
-    private readonly messageReciber: BufferAdapter = new BufferAdapter();
+    private readonly messageReciber: BufferAdapter = new BufferAdapter(this);
     private readonly topicMethod: Map<String, (messae: Buffer) => void> =
         new Map<String, (messae: Buffer) => void>([
+            [`${this.PATH}/init`, this.messageReciber.initializeMachine],
             [`${this.PATH}/status`, this.messageReciber.updateStatus],
-            [`${this.PATH}/stock/#`, this.messageReciber.updateStock]
+            [`${this.PATH}/stock`, this.messageReciber.updateStock],
+            [`${this.PATH}/stock/product/buy`, this.messageReciber.boughtProduct],
+            [`${this.PATH}/credit`, this.messageReciber.updateCredit]
         ]);
 
     constructor(){
-        const MQTT_PATH = process.env;
+        const MQTT_PATH = process.env.MQTT_PATH;
         this.client = mqtt.connect(`mqtt://${MQTT_PATH}`);
-        this.client.on("connect", this.configureMqttClient);
+        this.client.on("connect", ()=>{this.configureMqttClient()});
+    }
+
+    public sendMessage<T>(theme: string, payload: T) {
+        const serializedData = JSON.stringify(payload);
+        this.client.publish(this.PATH+theme, serializedData);
     }
 
     private configureMqttClient() {
-        this.subscribeToTopict();
-        this.setMessageManager();
+        this.subscribe();
+        this.client.on('message', (topic, message)=>{this.messageManager(topic, message)});
     }
 
-    private subscribeToTopict(){
+    private subscribe() {
+        this.client.subscribe(`${this.PATH}/#`)
         this.client.subscribe(`${this.PATH}/status`);
         this.client.subscribe(`${this.PATH}/stock/#`);
         //TODO: /credit me manda el incremento.
@@ -33,11 +42,9 @@ export class MqttClient{
         this.client.subscribe(`${this.PATH}/price/#`);
     }
 
-    private setMessageManager(){
-        this.client.on('message', this.messageManager);
-    }
-
     private messageManager(topic: String, message: Buffer){
+        console.log(`topic: ${topic} message: ${message}`);
+        
         const topicCallBack: ((messae: Buffer) => void) | undefined = this.topicMethod.get(topic)
         if (topicCallBack === undefined) 
             throw new Error("Unexpected topic");

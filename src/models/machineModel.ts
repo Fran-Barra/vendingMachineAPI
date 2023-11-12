@@ -20,3 +20,11 @@ const machineSchema = new Schema<IMachine>({
 })
 
 export default model<IMachine>('Machine', machineSchema);
+
+export interface MachineInitData{
+    credit: number;
+    esp_stock: number;
+    proto_stock: number;
+    led_stock: number;
+    pusher_stock: number;  
+}

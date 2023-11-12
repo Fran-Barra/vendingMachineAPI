@@ -3,9 +3,31 @@ import { MachineFactory } from '../factory.ts/machineFactory';
 import { MachineRepository } from '../repository/machineRepository';
 import HttpException from '../exceptions/httpExceptions';
 import { MachineDTO } from 'dto/machineDTO';
+import { IProduct } from 'models/productModel';
+import { ProductRepository } from '../repository/productRepository';
+import { HttpStatus } from '../httpStatus';
+import { MachineProductRepository } from '../repository/machineProductRepository';
+import { MachineSells } from '../repository/machineSellsRepo';
 
 
 export class MachineService {
+    //TODO: this should be a transaction
+    public static async BoughtProductOfMachine(idManchine: String, idProduct: String): Promise<void> {
+        try {
+            //TODO: check machine credit
+            const machine: IMachine = await MachineRepository.getMachineById(idManchine);
+            const product: IProduct = await ProductRepository.getProductByID(idProduct);
+            if (machine.credit < product.price) throw new HttpException(HttpStatus.BadRequest, "Not enought money");
+
+            this.increaseOrDecreaseCreditOfMachine(idManchine, -product.price);
+            MachineProductRepository.decreaseOrIncreseStock(idProduct, idProduct, 1);
+
+            MachineSells.saveSellOfMAchine(idManchine.toString(), idProduct.toString())
+        }catch (err) {
+            throw err
+        }
+
+    }
 
     public static async createAndSave(machineDTO: MachineDTO): Promise<IMachine> {
         //TODO: subscrive to events of machine
