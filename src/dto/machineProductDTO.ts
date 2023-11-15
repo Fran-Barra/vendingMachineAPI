@@ -1,8 +1,8 @@
+import { IProduct } from "models/productModel";
 import { Types } from "mongoose";
 
 export interface IMachineProductDTO {
     machine: Types.ObjectId;
-    product: Types.ObjectId;
-    productName: String;
+    product: IProduct
     stock: number;
 }

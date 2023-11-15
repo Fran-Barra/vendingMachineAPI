@@ -1,42 +1,23 @@
-import { IMachineProductDTO } from "../dto/machineProductDTO";
 import HttpException from "../exceptions/httpExceptions";
 import { HttpStatus } from "../httpStatus";
 import machineProductModel, { IMachineProduct } from "../models/machineProductModel";
-import { ProductRepository } from "./productRepository";
 
 
 
 export class MachineProductRepository{
 
-    public static async getMachineProducts(machineId: String): Promise<Array<IMachineProductDTO>> {
+    public static async getMachineProducts(machineId: String): Promise<Array<IMachineProduct>> {
         try {
             const machineProductResult = await machineProductModel.find({machine: machineId});
             if (machineProductResult == null)
                 return [];
-            return await this.modelsToDTO(machineProductResult);
+            return machineProductResult;
         } catch (err) {
             throw err;
         }
     }
 
-    private static async modelsToDTO(machineProducts: Array<IMachineProduct>): Promise<Array<IMachineProductDTO>> {
-        const dtos: Array<IMachineProductDTO> = new Array<IMachineProductDTO>
-        console.log("machines amount: " + machineProducts.length);
-        
-        for (let i = 0; i < machineProducts.length; i++) {
-            const p = machineProducts[i];
-            const porduct = await ProductRepository.getProductByID(p.product.toString());
-            dtos.push({
-                machine: p.machine,
-                product: p.product,
-                productName: porduct.name,
-                stock: p.stock
-            })
-        }
 
-        console.log("dot lenght: " + dtos.length)
-        return dtos; 
-    }
 
     /**
     * Update the stock of a machine.

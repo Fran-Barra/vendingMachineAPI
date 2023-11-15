@@ -6,6 +6,7 @@ import { MachineRepository } from "../repository/machineRepository";
 import { MachineProductRepository } from "../repository/machineProductRepository";
 import { MachineDTO } from "dto/machineDTO";
 import { MachineSells } from "../repository/machineSellsRepo";
+import { MachineProductService } from "../servicies/machineProductService";
 
 export class MachineController implements Controller {
     path: String = "/machine";
@@ -81,7 +82,8 @@ export class MachineController implements Controller {
             if (req.params.id == null) throw new HttpException(HttpStatus.BadRequest, 'missing id');        
             const machineId: String = req.params.id;
             const products = await MachineProductRepository.getMachineProducts(machineId);
-            res.status(HttpStatus.OK).json({"products": products});
+            const productsDTO = await MachineProductService.modelsToDTO(products);
+            res.status(HttpStatus.OK).json({"products": productsDTO});
         } catch (err) {
             //TODO: manage known errors.
             next(err);
