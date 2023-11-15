@@ -80,7 +80,8 @@ export class MachineController implements Controller {
         try{
             if (req.params.id == null) throw new HttpException(HttpStatus.BadRequest, 'missing id');        
             const machineId: String = req.params.id;
-            res.status(HttpStatus.OK).json({"products": MachineProductRepository.getMachineProducts(machineId)});
+            const products = await MachineProductRepository.getMachineProducts(machineId);
+            res.status(HttpStatus.OK).json({"products": products});
         } catch (err) {
             //TODO: manage known errors.
             next(err);
