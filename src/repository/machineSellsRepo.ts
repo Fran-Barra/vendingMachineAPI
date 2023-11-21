@@ -46,14 +46,15 @@ export class MachineSells{
             
             let totalEarnings: number = 0;
 
-            findMachieneStatsResult.sells.forEach(async (sellStat: ISellStat) => {
+            for (let i = 0; i < findMachieneStatsResult.sells.length; i++) {
+                const sellStat: ISellStat = findMachieneStatsResult.sells[i];
                 if (sellStat.product instanceof Types.ObjectId) {
-                    const product = await productModel.findById(sellStat);
+                    const product = await productModel.findById(sellStat.product);
                     if (product) totalEarnings += product.price;
                 } else {
                     totalEarnings += sellStat.product.price;
                 }
-            })
+            }
 
             return totalEarnings;
             
