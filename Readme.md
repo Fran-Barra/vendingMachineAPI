@@ -1,6 +1,6 @@
-#Vending Machine API
+# Vending Machine API
 
-##Setup
+## Setup
 To set up the server, follow these steps:
 
 1. Create your own .env file using the provided .env.example as a template.
@@ -10,7 +10,7 @@ To set up the server, follow these steps:
     -Server port
 
 
-##Initialization
+## Initialization
 Start the server using the following command:
 
 npm run dev
