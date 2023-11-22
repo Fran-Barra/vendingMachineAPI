@@ -21,7 +21,9 @@ Once the server is running, the MqttClient implemented in mqttService.ts will su
 To interact with the server, use the following endpoint paths:
 
 Base Path: http://host:port/api
+
 /machine
+
 Perform various operations related to vending machines. Most operations are designed to gather data for a front-end application.
 
 POST: /machine
@@ -32,15 +34,18 @@ POST: /machine
 GET: /machine
 
 - Retrieve information for all machines, including basic details such as id, credit, and status.
+  
 /machine/:id
 Perform specific operations on a particular machine.
 
 GET: /machine/:id
 
-- Retrieve the same data as the general endpoint, but for a specific machine.
+- Retrieve the same data as the general endpoint, but for a specific machine.\
+
 GET: /machine/:id/products
 
 - Retrieve information about the products in the specified machine, including price, stock, and name.
+
 GET: /machine/:id/stats
 
 - Retrieve data related to sales, including total earnings and an array of sales history.
