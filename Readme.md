@@ -5,9 +5,9 @@ To set up the server, follow these steps:
 
 1. Create your own .env file using the provided .env.example as a template.
 2. Fill in the required information in the .env file:
-    -MQTT path
-    -MongoDB path and connection details
-    -Server port
+    - MQTT path
+    - MongoDB path and connection details
+    - Server port
 
 
 ## Initialization
