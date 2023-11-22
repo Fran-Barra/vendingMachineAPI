@@ -17,7 +17,7 @@ npm run dev
 
 Once the server is running, the MqttClient implemented in mqttService.ts will subscribe to the MQTT, allowing it to listen to all machine messages and update corresponding data in the database. You can then proceed to use the available endpoints.
 
-#Endpoints
+# Endpoints
 To interact with the server, use the following endpoint paths:
 
 Base Path: http://host:port/api
