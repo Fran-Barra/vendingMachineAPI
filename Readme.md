@@ -21,6 +21,7 @@ Once the server is running, the MqttClient implemented in mqttService.ts will su
 To interact with the server, use the following endpoint paths:
 
 Base Path: http://host:port/api
+
 /machine
 Perform various operations related to vending machines. Most operations are designed to gather data for a front-end application.
 
