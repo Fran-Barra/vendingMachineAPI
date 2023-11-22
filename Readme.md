@@ -28,6 +28,7 @@ POST: /machine
 
 - Create a new machine based on the provided data.
 - Required data format can be found in MachineDTO.
+
 GET: /machine
 
 - Retrieve information for all machines, including basic details such as id, credit, and status.
